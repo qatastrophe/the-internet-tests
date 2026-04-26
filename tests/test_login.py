@@ -18,7 +18,6 @@ class TestLogin:
         secure_page: SecurePage,
         secure_credentials,
     ):
-
         page.goto("/")
 
         main_page.open("Form Authentication")
@@ -73,12 +72,10 @@ class TestLogin:
         ),
     )
     def test_invalid_login(
-        self, page: Page, main_page: MainPage, login_page: LoginPage, test_case
+        self, page: Page, login_page: LoginPage, test_case
     ):
 
-        page.goto("/")
-
-        main_page.open("Form Authentication")
+        login_page.goto()
 
         login_page.fill_username(test_case["user"])
         login_page.fill_password(test_case["password"])
@@ -91,3 +88,28 @@ class TestLogin:
             login_page.flash_message, "Message should contain class 'error'"
         ).to_contain_class("error")
         expect(page).not_to_have_url(re.compile(".*/secure"))
+
+    def test_logout(
+        self, login_page: LoginPage, secure_page: SecurePage, secure_credentials
+    ):
+
+        login_page.goto()
+        login_page.login_with(
+            secure_credentials["user"], secure_credentials["password"]
+        )
+
+        expect(secure_page.page, "URL should contain /secure in its path").to_have_url(
+            re.compile(".*/secure")
+        )
+        expect(
+            secure_page.logged_in_msg,
+            "Message should be 'You logged into a secure area!'",
+        ).to_have_text(re.compile("You logged into a secure area!"))
+        expect(secure_page.content_block).to_be_visible()
+
+        secure_page.click_logout()
+        expect(login_page.username_input).to_be_visible()
+        expect(login_page.password_input).to_be_visible()
+        expect(login_page.page, "URL should contain /secure in its path").to_have_url(
+            re.compile(".*/login")
+        )

@@ -2,18 +2,19 @@ from pages.base_page import BasePage
 
 
 class LoginPage(BasePage):
-    
+    URL = "/login"
+
     def __init__(self, page):
         super().__init__(page)
 
-        self.username_input = page.locator('#username')
-        self.password_input = page.locator('#password')
+        self.username_input = page.locator("#username")
+        self.password_input = page.locator("#password")
         self.login_btn = page.locator('button[type="submit"]')
         self.flash_message = page.locator("#flash")
 
     def fill_username(self, username: str) -> None:
         self.username_input.fill(username)
-    
+
     def fill_password(self, password: str) -> None:
         self.password_input.fill(password)
 
