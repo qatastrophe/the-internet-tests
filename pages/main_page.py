@@ -9,3 +9,8 @@ class MainPage:
         self.content_links = page.locator("#content li a")
         self.content_link = lambda link: page.locator("#content li a", has_text=link)
 
+    def open(self, link: str) -> None:
+        links_found_count = self.content_link(link).count()
+        if links_found_count == 0:
+            raise Exception(f'There is no link with "{link}" title')
+        self.content_link(link).click()
