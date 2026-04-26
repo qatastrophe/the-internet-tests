@@ -1,8 +1,9 @@
 from playwright.sync_api import Page, expect
+import pytest
 
 from pages.main_page import MainPage
 
-
+@pytest.mark.main_page
 class TestMainPage:
     def test_main_page(self, page: Page, main_page: MainPage):
 
