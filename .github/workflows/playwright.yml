@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     container:
         image: mcr.microsoft.com/playwright/python:v1.58.0-noble
+        env:
+            USER: ${{ secrets.USER }}
+            PASSWORD: ${{ secrets.PASSWORD }}
 
     strategy:
       fail-fast: false
