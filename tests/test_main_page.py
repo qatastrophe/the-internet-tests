@@ -7,7 +7,7 @@ from pages.main_page import MainPage
 class TestMainPage:
     def test_main_page(self, page: Page, main_page: MainPage):
 
-        page.goto("https://the-internet.herokuapp.com")
+        page.goto("/")
 
         expect(page, 'The title must be: "The internet"').to_have_title("The Internet")
 
